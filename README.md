@@ -2,8 +2,6 @@
 
 Interactive answer-sheet tool for assignments: answer MCQ and True/False questions on screen, then download a PDF with the full questions and your answers marked.
 
-**Live site:** `https://anoz24.github.io/QuestionsTool/`
-
 ## How it works
 
 1. Open a chapter sheet from the homepage.
