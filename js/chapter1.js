@@ -47,4 +47,4 @@ var D = [
             m("One of the owners equity:", "Income.", "Accounts Payable.", "Loans.", "Buildings.")]
     }];
 
-window.SHEET = { key: "acc1", data: D };
+window.SHEET = { key: "acc1", title: "Chapter 1 – Answer Sheet", file: "Chapter_1", data: D };

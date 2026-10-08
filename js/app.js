@@ -48,15 +48,25 @@ app.addEventListener("click", ev => {
 });
 app.addEventListener("input", ev => {
     const f = ev.target.closest("[data-o]"); if (!f) return;
-    const i = f.dataset.o; st.o[i] = f.value; st.a[i] = 4; save(); paint()
+    const i = f.dataset.o; st.o[i] = f.value; st.a[i] = +f.closest("[data-v]").dataset.v; save(); paint()
 });
 document.getElementById("nx").onclick = () => {
     const q = [...app.querySelectorAll(".q")].find(x => !x.classList.contains("done"));
     if (q) q.scrollIntoView({ behavior: "smooth" }); else ask("All done", "Every question has an answer.", { cancel: null, ok: "Great" })
 };
 document.getElementById("cl").onclick = async () => { if (await ask("Clear all answers?", "Your name, ID and other info will stay.", { ok: "Clear" })) { st.a = {}; st.o = {}; save(); paint() } };
-document.getElementById("pr").onclick = async () => {
-    const left = document.querySelectorAll(".q:not(.done)").length;
-    if (!left || await ask("Print with unanswered questions?", left + " question(s) have no answer yet.", { ok: "Print anyway", cancel: "Go back" })) window.print()
+document.getElementById("dl").onclick = async () => {
+    const miss = [["name", "Name"], ["id", "ID"]].filter(([k]) => !(st.info[k] || "").trim());
+    const left = document.querySelectorAll(".q:not(.done)").length, msg = [];
+    if (miss.length) msg.push("Missing info: " + miss.map(m => m[1]).join(", ") + ".");
+    if (left) msg.push(left + " question(s) have no answer yet.");
+    if (msg.length && !await ask("Download anyway?", msg.join(" "), { ok: "Download anyway", cancel: "Go back" })) {
+        if (miss.length) { window.scrollTo({ top: 0, behavior: "smooth" }); document.querySelector('[data-f="' + miss[0][0] + '"]').focus() } return
+    }
+    try {
+        const S = window.SHEET, doc = buildPDF(D, st, S.title || document.title);
+        const nm = [S.file || "answers", st.info.name, st.info.id].filter(Boolean).join("_").replace(/[^\w\u0600-\u06FF-]+/g, "_");
+        doc.save(nm + ".pdf")
+    } catch (err) { console.error(err); ask("Couldn't create the PDF", "Refresh the page and try again. Your answers are saved.", { cancel: null, ok: "OK" }) }
 };
 paint();
