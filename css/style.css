@@ -175,15 +175,9 @@ h2 {
     gap: 8px
 }
 
-.tf button {
-    width: 64px;
-    font-size: 20px
-}
-
-.tf button.sel {
-    background: var(--tx);
-    color: var(--bg);
-    border-color: var(--tx)
+.tf .o {
+    flex: 1;
+    margin: 0
 }
 
 .o {
@@ -406,20 +400,9 @@ h2 {
         font-weight: 700
     }
 
-    .tf button {
-        border: 1px solid #000;
-        background: #fff;
-        color: #000;
-        width: 46px;
-        padding: 2px;
-        font-size: 14pt
-    }
-
-    .tf button.sel {
-        background: #000 !important;
-        color: #fff !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact
+    .tf .o {
+        flex: none;
+        margin-right: 28px
     }
 
     .ctx {

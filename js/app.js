@@ -22,7 +22,7 @@ D.forEach(s => {
         n++; const tf = typeof it == "string", t = tf ? it : it[0], cx = tf ? "" : it[2] || "";
         if (cx && cx !== pc) h += `<div class="ctx">${cx}</div>`; pc = cx;
         let b;
-        if (tf) b = `<div class="tf"><button data-i="${n}" data-v="1">✔</button><button data-i="${n}" data-v="0">✖</button></div>`;
+        if (tf) b = `<div class="tf"><div class="o" data-i="${n}" data-v="1"><span class="m"></span><span>✔ Correct</span></div><div class="o" data-i="${n}" data-v="0"><span class="m"></span><span>✖ Incorrect</span></div></div>`;
         else b = it[1].map((o, j) => `<div class="o" data-i="${n}" data-v="${j}"><span class="m"></span><span>${o.includes("answer is") ? o.replace(".....", `<input class="fill" data-o="${n}">`) : o}</span></div>`).join("");
         h += `<div class="q" id="q${n}"><div class="qt"><b>${n}.</b> ${t}</div>${b}</div>`
     })
