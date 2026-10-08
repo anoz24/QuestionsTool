@@ -1,4 +1,17 @@
 // Generic answer-sheet engine. Needs window.SHEET = {key, data} from a chapter file.
+// Dialog helper: ask(title, text, {ok, cancel}) -> Promise<boolean>. Pass cancel:null for an info-only dialog.
+function ask(title, text, o = {}) {
+    return new Promise(res => {
+        const d = document.createElement("dialog"); d.className = "dlg";
+        d.innerHTML = `<h3></h3><p></p><div class="dact">${o.cancel === null ? "" : '<button data-r="0"></button>'}<button class="p" data-r="1"></button></div>`;
+        d.querySelector("h3").textContent = title; d.querySelector("p").textContent = text;
+        const c = d.querySelector('[data-r="0"]'); if (c) c.textContent = o.cancel || "Cancel";
+        d.querySelector('[data-r="1"]').textContent = o.ok || "OK";
+        d.addEventListener("click", e => { const b = e.target.closest("[data-r]"); if (b) { d.returnValue = b.dataset.r; d.close() } else if (e.target === d) d.close() });
+        d.addEventListener("close", () => { res(d.returnValue === "1"); d.remove() });
+        document.body.appendChild(d); d.showModal()
+    })
+}
 let st = { info: {}, a: {}, o: {} };
 try { Object.assign(st, JSON.parse(localStorage.getItem(window.SHEET.key) || "{}")) } catch (e) { }
 const save = () => { try { localStorage.setItem(window.SHEET.key, JSON.stringify(st)) } catch (e) { } };
@@ -39,11 +52,11 @@ app.addEventListener("input", ev => {
 });
 document.getElementById("nx").onclick = () => {
     const q = [...app.querySelectorAll(".q")].find(x => !x.classList.contains("done"));
-    if (q) q.scrollIntoView({ behavior: "smooth" }); else alert("All questions answered!")
+    if (q) q.scrollIntoView({ behavior: "smooth" }); else ask("All done", "Every question has an answer.", { cancel: null, ok: "Great" })
 };
-document.getElementById("cl").onclick = () => { if (confirm("Clear all answers? (Your info stays)")) { st.a = {}; st.o = {}; save(); paint() } };
-document.getElementById("pr").onclick = () => {
+document.getElementById("cl").onclick = async () => { if (await ask("Clear all answers?", "Your name, ID and other info will stay.", { ok: "Clear" })) { st.a = {}; st.o = {}; save(); paint() } };
+document.getElementById("pr").onclick = async () => {
     const left = document.querySelectorAll(".q:not(.done)").length;
-    if (!left || confirm(left + " question(s) unanswered. Print anyway?")) window.print()
+    if (!left || await ask("Print with unanswered questions?", left + " question(s) have no answer yet.", { ok: "Print anyway", cancel: "Go back" })) window.print()
 };
 paint();

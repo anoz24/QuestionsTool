@@ -324,6 +324,36 @@ h2 {
     color: var(--mu)
 }
 
+/* ---- Dialogs ---- */
+.dlg {
+    border: 1px solid var(--bd);
+    border-radius: 14px;
+    background: var(--card);
+    color: var(--tx);
+    padding: 20px;
+    width: min(380px, calc(100vw - 32px))
+}
+
+.dlg::backdrop {
+    background: rgba(0, 0, 0, .5)
+}
+
+.dlg h3 {
+    margin: 0 0 6px;
+    font-size: 18px
+}
+
+.dlg p {
+    margin: 0 0 18px;
+    color: var(--mu)
+}
+
+.dact {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end
+}
+
 @media print {
     body {
         background: #fff;
@@ -338,7 +368,8 @@ h2 {
 
     .bar,
     .hint,
-    .noprint {
+    .noprint,
+    .dlg {
         display: none !important
     }
 
