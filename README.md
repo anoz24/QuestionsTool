@@ -5,10 +5,10 @@ Interactive answer-sheet tool for assignments: answer MCQ and True/False questio
 ## How it works
 
 1. Open a chapter sheet from the homepage.
-2. Fill in your info (name, ID, section, date) and tap your answers.
+2. Fill in your info (name and ID) and tap your answers.
 3. Press **Download PDF**. The file has your info, every question, and your marked answers in a two-column A4 layout. If your name, ID or any answers are missing, it asks before downloading.
 
-Answers and info are saved automatically in your own browser on that device. Nothing is sent anywhere.
+Answers and info are saved automatically in your own browser on that device and are never sent anywhere.
 
 ## Project structure
 
@@ -34,7 +34,3 @@ js/chapter1.js              Chapter 1 questions
 - A plain string is a True/False question.
 - `m("Question", "Option 1", "Option 2", ...)` is a multiple-choice question.
 - `g("Question", "10,000", "20,000", "30,000", CONTEXT)` is an MCQ with EGP amounts plus a "None of the above" option. The last argument is an optional shared paragraph shown once above a group of related questions.
-
-## Hosting
-
-Static files only, no build step. The PDF is created in the visitor's browser, so nothing is uploaded. Works on GitHub Pages (**Settings → Pages**, main branch, root folder), Netlify, Cloudflare Pages, or by opening `index.html` locally.

@@ -66,7 +66,7 @@ document.getElementById("dl").onclick = async () => {
     try {
         const S = window.SHEET, doc = buildPDF(D, st, S.title || document.title);
         const nm = [S.file || "answers", st.info.name, st.info.id].filter(Boolean).join("_").replace(/[^\w\u0600-\u06FF-]+/g, "_");
-        doc.save(nm + ".pdf")
+        doc.save(nm + ".pdf"); try { window.goatcounter && goatcounter.count({ path: "download-" + (S.file || "pdf"), title: "PDF download", event: true }) } catch (e) { }
     } catch (err) { console.error(err); ask("Couldn't create the PDF", "Refresh the page and try again. Your answers are saved.", { cancel: null, ok: "OK" }) }
 };
 paint();
